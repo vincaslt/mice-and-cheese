@@ -9,34 +9,57 @@ import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Utils;
+import com.vincas.miceandcheese.components.Attack;
+import com.vincas.miceandcheese.components.Health;
 import com.vincas.miceandcheese.components.Position;
+import com.vincas.miceandcheese.components.TimerComponent;
 import com.vincas.miceandcheese.components.Velocity;
-import com.vincas.miceandcheese.entities.CheeseEntity;
 import com.vincas.miceandcheese.entities.MouseEntity;
+import com.vincas.miceandcheese.utils.StateIndex;
+import com.vincas.miceandcheese.utils.Timer;
 import com.vincas.miceandcheese.utils.math_utils.Vector;
 
-public class CollisionSystem extends EntitySystem {
-	@Mapper private ComponentMapper<Position> positionMapper;
+import org.newdawn.slick.state.StateBasedGame;
 
-	public CollisionSystem() {
+public class CollisionSystem extends EntitySystem {
+	@Mapper
+	private ComponentMapper<Position> positionMapper;
+	private StateBasedGame game;
+
+	public CollisionSystem(StateBasedGame game) {
 		super(Aspect.getAspectForAll(Position.class));
+		this.game = game;
 	}
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> mice = world.getManager(GroupManager.class).getEntities("MOUSE");
-		Entity cheese  = world.getManager(TagManager.class).getEntity("CHEESE");
+		Entity cheese = world.getManager(TagManager.class).getEntity("CHEESE");
+		Health health = cheese.getComponent(Health.class);
+
+		// Probably not the best place for it here, create new system?
+		if (!health.isAlive()) {
+			game.enterState(StateIndex.LOSE_GAME_STATE);
+		}
 
 		if (cheese != null && mice != null) {
 			for (int i = 0; i < mice.size(); i++) {
 				Entity mouse = mice.get(i);
-				if (collisionExists(mouse, cheese, 50, new float[]{
-					MouseEntity.WIDTH / 2, MouseEntity.HEIGHT / 2,
-					CheeseEntity.WIDTH / 2, CheeseEntity.HEIGHT / 2
-				}) && mouse.getComponent(Velocity.class) != null) {
-					Vector v = mouse.getComponent(Velocity.class).getVector();
-					v.setCoordinatesByLength(0);
-					mouse.getComponent(Velocity.class).setVector(v);
+				if (health.isAlive() && collisionExists(mouse, cheese, 50, new float[]{
+					MouseEntity.WIDTH / 2, MouseEntity.HEIGHT / 2, 0, 0})) {
+					if (mouse.getComponent(Velocity.class) != null) {
+						Vector v = mouse.getComponent(Velocity.class).getVector();
+						v.setCoordinatesByLength(0);
+						mouse.getComponent(Velocity.class).setVector(v);
+					}
+					Timer timer = mouse.getComponent(TimerComponent.class).getTimer();
+					if (!timer.isTimeComplete())
+						timer.update((int)world.getDelta());
+					else {
+						int damage = mouse.getComponent(Attack.class).getAttackDamage();
+						health.addDamage(damage);
+						timer.reset();
+					}
 				}
 			}
 		}

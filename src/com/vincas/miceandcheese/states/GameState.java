@@ -7,6 +7,7 @@ import com.vincas.miceandcheese.LaunchGame;
 import com.vincas.miceandcheese.MiceAndCheese;
 import com.vincas.miceandcheese.systems.CollisionSystem;
 import com.vincas.miceandcheese.systems.MovementSystem;
+import com.vincas.miceandcheese.systems.RenderGUISystem;
 import com.vincas.miceandcheese.systems.RenderSystem;
 import com.vincas.miceandcheese.systems.SpawnSystem;
 import com.vincas.miceandcheese.utils.EntityFactory;
@@ -31,7 +32,6 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.slick2d.NiftyOverlayBasicGameState;
 
 public class GameState extends NiftyOverlayBasicGameState implements InputProviderListener {
-
 	private Command COMMAND_EXIT = new BasicCommand("exit");
 	private InputProvider inputProvider;
 	private World world;
@@ -46,16 +46,26 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 	protected void enterState(GameContainer gameContainer, StateBasedGame stateBasedGame) {
 		// TODO smarter initialization
 		try {
+			// Initialize world
+			world = new World();
+			world.setManager(new GroupManager());
+			world.setManager(new TagManager());
+			world.setSystem(new RenderSystem(gameContainer));
+			world.setSystem(new SpawnSystem(1000));
+			world.setSystem(new MovementSystem());
+			world.setSystem(new CollisionSystem(stateBasedGame));
+			world.setSystem(new RenderGUISystem(gameContainer));
+			world.initialize();
+
 			EntityFactory.createCheeseEntity(world,
-				MiceAndCheese.getGameScreenCenterX() - ResourceManager.getImage("cheese").getWidth() / 2,
-				MiceAndCheese.getGameScreenCenterY() - ResourceManager.getImage("cheese").getHeight() / 2)
+				MiceAndCheese.getGameScreenCenterX(),
+				MiceAndCheese.getGameScreenCenterY())
 				.addToWorld();
 
 			// Change cursor
 			Image cursorImage = ResourceManager.getImage("cursor");
 			gameContainer.setMouseCursor(cursorImage, cursorImage.getWidth() / 2,
 				cursorImage.getHeight() / 2);
-
 		} catch (SlickException e) {
 			Logger.getLogger(LaunchGame.class.getName()).log(Level.SEVERE, null, e);
 		}
@@ -73,16 +83,6 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 		inputProvider.addListener(this);
 		inputProvider.bindCommand(new KeyControl(Input.KEY_ESCAPE), COMMAND_EXIT);
 		inputProvider.bindCommand(new KeyControl(Input.KEY_Q), COMMAND_EXIT);
-
-		// Initialize world
-		world = new World();
-		world.setManager(new GroupManager());
-		world.setManager(new TagManager());
-		world.setSystem(new RenderSystem(gameContainer));
-		world.setSystem(new SpawnSystem(1000));
-		world.setSystem(new MovementSystem());
-		world.setSystem(new CollisionSystem());
-		world.initialize();
 	}
 
 	@Override
