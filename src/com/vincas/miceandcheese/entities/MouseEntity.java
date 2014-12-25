@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.vincas.miceandcheese.MiceAndCheese;
+import com.vincas.miceandcheese.components.KillOnClick;
 import com.vincas.miceandcheese.components.Position;
 import com.vincas.miceandcheese.components.Velocity;
 import com.vincas.miceandcheese.utils.ResourceManager;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MouseEntity extends GameObject {
+public class MouseEntity extends KillableEntity {
 	private SpriteSheet spriteSheet;
 	private Position position;
 	private Animation animation;
@@ -31,6 +32,13 @@ public class MouseEntity extends GameObject {
 
 	public MouseEntity(World world, Entity owner) {
 		super(world, owner);
+	}
+
+	@Override
+	public void die() {
+		ComponentMapper<KillOnClick> killMapper = ComponentMapper.getFor(KillOnClick.class, world);
+		// TODO add animation, and remoe only on animation finished event
+		killMapper.get(owner).setState(KillOnClick.State.FINISHED);
 	}
 
 	@Override

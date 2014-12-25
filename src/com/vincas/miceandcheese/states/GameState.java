@@ -6,6 +6,7 @@ import com.artemis.managers.TagManager;
 import com.vincas.miceandcheese.LaunchGame;
 import com.vincas.miceandcheese.MiceAndCheese;
 import com.vincas.miceandcheese.systems.CollisionSystem;
+import com.vincas.miceandcheese.systems.InputSystem;
 import com.vincas.miceandcheese.systems.MovementSystem;
 import com.vincas.miceandcheese.systems.RenderGUISystem;
 import com.vincas.miceandcheese.systems.RenderSystem;
@@ -50,8 +51,9 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 			world = new World();
 			world.setManager(new GroupManager());
 			world.setManager(new TagManager());
+			world.setSystem(new InputSystem(gameContainer));
 			world.setSystem(new RenderSystem(gameContainer));
-			world.setSystem(new SpawnSystem(1000));
+			world.setSystem(new SpawnSystem(500));
 			world.setSystem(new MovementSystem());
 			world.setSystem(new CollisionSystem(stateBasedGame));
 			world.setSystem(new RenderGUISystem(gameContainer));
@@ -103,7 +105,6 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 	@Override
 	protected void prepareNifty(Nifty nifty, StateBasedGame stateBasedGame) {
 		// Load gui here
-
 	}
 
 	@Override

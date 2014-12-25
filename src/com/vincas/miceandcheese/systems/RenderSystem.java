@@ -4,12 +4,16 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.TagManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.Bag;
 import com.vincas.miceandcheese.components.GameObjectForm;
+import com.vincas.miceandcheese.components.KillOnClick;
 import com.vincas.miceandcheese.components.Position;
+import com.vincas.miceandcheese.components.Score;
 import com.vincas.miceandcheese.entities.CheeseEntity;
 import com.vincas.miceandcheese.entities.GameObject;
+import com.vincas.miceandcheese.entities.KillableEntity;
 import com.vincas.miceandcheese.entities.MouseEntity;
 
 import org.newdawn.slick.GameContainer;
@@ -33,6 +37,20 @@ public class RenderSystem extends EntityProcessingSystem {
 	protected void process(Entity e) {
 		GameObject gameObject = gameObjects.get(e.getId());
 		Position position = positionMapper.get(e);
+		KillOnClick killE = e.getComponent(KillOnClick.class);
+		Score score = world.getManager(TagManager.class).getEntity("CHEESE").getComponent(Score.class);
+
+		if (gameObject instanceof KillableEntity && killE != null) {
+			switch (killE.getState()) {
+				case PROCESSING:
+					((KillableEntity) gameObject).die();
+					score.incrementScore(killE.getReward());
+					break;
+				case FINISHED:
+					e.deleteFromWorld();
+					break;
+			}
+		}
 
 		// Quick hack, make more flexible later
 		float width = gameObject instanceof MouseEntity ? MouseEntity.WIDTH : 0;

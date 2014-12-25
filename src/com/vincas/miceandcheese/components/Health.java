@@ -26,7 +26,7 @@ public class Health extends Component {
 		return Math.round(health / maximumHealth * 100f);
 	}
 
-	public void addDamage(int damage)
+	public void addDamage(float damage)
 	{
 		health -= damage;
 		if (health < 0)

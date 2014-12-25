@@ -3,17 +3,17 @@ package com.vincas.miceandcheese.components;
 import com.artemis.Component;
 
 public class Attack extends Component {
-	private int attackDamage;
+	private float attackDamage;
 
-	public Attack(int attackDamage) {
+	public Attack(float attackDamage) {
 		this.attackDamage = attackDamage;
 	}
 
-	public void setAttackDamage(int attackDamage) {
+	public void setAttackDamage(float attackDamage) {
 		this.attackDamage = attackDamage;
 	}
 
-	public int getAttackDamage() {
+	public float getAttackDamage() {
 		return attackDamage;
 	}
 }

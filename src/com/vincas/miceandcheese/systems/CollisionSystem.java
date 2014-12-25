@@ -14,7 +14,6 @@ import com.vincas.miceandcheese.components.Health;
 import com.vincas.miceandcheese.components.Position;
 import com.vincas.miceandcheese.components.TimerComponent;
 import com.vincas.miceandcheese.components.Velocity;
-import com.vincas.miceandcheese.entities.MouseEntity;
 import com.vincas.miceandcheese.utils.StateIndex;
 import com.vincas.miceandcheese.utils.Timer;
 import com.vincas.miceandcheese.utils.math_utils.Vector;
@@ -45,8 +44,9 @@ public class CollisionSystem extends EntitySystem {
 		if (cheese != null && mice != null) {
 			for (int i = 0; i < mice.size(); i++) {
 				Entity mouse = mice.get(i);
+				Position p = positionMapper.get(mouse);
 				if (health.isAlive() && collisionExists(mouse, cheese, 50, new float[]{
-					MouseEntity.WIDTH / 2, MouseEntity.HEIGHT / 2, 0, 0})) {
+					p.getCenterOffsetX(), p.getCenterOffsetY(), 0, 0})) {
 					if (mouse.getComponent(Velocity.class) != null) {
 						Vector v = mouse.getComponent(Velocity.class).getVector();
 						v.setCoordinatesByLength(0);
@@ -56,7 +56,7 @@ public class CollisionSystem extends EntitySystem {
 					if (!timer.isTimeComplete())
 						timer.update((int)world.getDelta());
 					else {
-						int damage = mouse.getComponent(Attack.class).getAttackDamage();
+						float damage = mouse.getComponent(Attack.class).getAttackDamage();
 						health.addDamage(damage);
 						timer.reset();
 					}
@@ -89,6 +89,10 @@ public class CollisionSystem extends EntitySystem {
 		Position p1 = positionMapper.get(e1);
 		Position p2 = positionMapper.get(e2);
 
+		return isColiding(p1, p2, distance, offsets);
+	}
+
+	public static boolean isColiding(Position p1, Position p2, float distance, float[] offsets) {
 		return Utils.distance(p1.getX() + offsets[0], p1.getY() + offsets[1],
 			p2.getX() + offsets[2], p2.getY() + offsets[3]) <= distance;
 	}
