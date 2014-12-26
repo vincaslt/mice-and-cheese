@@ -1,5 +1,6 @@
 package com.vincas.miceandcheese;
 
+import com.artemis.World;
 import com.vincas.miceandcheese.states.GameState;
 import com.vincas.miceandcheese.states.LoadingState;
 import com.vincas.miceandcheese.states.LoseGameState;
@@ -20,6 +21,8 @@ public class MiceAndCheese extends NiftyStateBasedGame {
 	public static final int GAME_WIDTH = RES_WIDTH;
 	public static final int GAME_HEIGHT = RES_HEIGHT;
 	public static final boolean RES_FULLSCREEN = false;
+
+	public static World gameWorld;
 
 	public MiceAndCheese(String gameName) {
 		super(gameName);

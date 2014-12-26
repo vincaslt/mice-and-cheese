@@ -37,11 +37,10 @@ public class RenderGUISystem extends EntityProcessingSystem {
 		Accuracy acc = accuracyMapper.get(e);
 		Health hp = healthMapper.get(e);
 		g.setColor(Color.red);
-		g.drawString("Health: " + hp.getHealthPercentage() + "%", MiceAndCheese.GAME_WIDTH - 600, 20);
+		g.drawString("Health: " + hp.getHealthPercentage() + "%", MiceAndCheese.GAME_WIDTH - 580, 20);
 		g.setColor(Color.green);
-		g.drawString("Accuracy: " + acc.getPercentage(), MiceAndCheese.GAME_WIDTH - 400, 20);
+		g.drawString("Accuracy: " + acc.getPercentage() + "%", MiceAndCheese.GAME_WIDTH - 400, 20);
 		g.setColor(Color.yellow);
 		g.drawString("Score: " + score.getScore(), MiceAndCheese.GAME_WIDTH - 200, 20);
-
 	}
 }

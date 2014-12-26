@@ -8,6 +8,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.managers.TagManager;
 import com.artemis.utils.ImmutableBag;
 import com.vincas.miceandcheese.components.Accuracy;
+import com.vincas.miceandcheese.components.Health;
 import com.vincas.miceandcheese.components.KillOnClick;
 import com.vincas.miceandcheese.components.Position;
 
@@ -48,8 +49,13 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 
 	@Override
 	public void controlPressed(Command command) {
+		Entity player = world.getManager(TagManager.class).getEntity("PLAYER");
+		Health health = player.getComponent(Health.class);
+		if (!health.isAlive())
+			return;
+
 		if (command.equals(COMMAND_SHOOT)) {
-			Accuracy acc = world.getManager(TagManager.class).getEntity("PLAYER").getComponent(Accuracy.class);
+			Accuracy acc = player.getComponent(Accuracy.class);
 			int x = gameContainer.getInput().getMouseX();
 			int y = gameContainer.getInput().getMouseY();
 			Position p = new Position(x, y);

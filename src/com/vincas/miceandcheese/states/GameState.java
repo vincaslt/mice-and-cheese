@@ -48,7 +48,8 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 		// TODO smarter initialization
 		try {
 			// Initialize world
-			world = new World();
+			MiceAndCheese.gameWorld = new World();
+			world = MiceAndCheese.gameWorld;
 			world.setManager(new GroupManager());
 			world.setManager(new TagManager());
 			world.setSystem(new InputSystem(gameContainer));
