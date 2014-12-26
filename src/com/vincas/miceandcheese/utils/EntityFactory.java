@@ -11,6 +11,15 @@ import com.vincas.miceandcheese.utils.math_utils.Vector;
 
 public class EntityFactory {
 
+	public static Entity createPlayerEntity(World world, float health) {
+		Entity e = world.createEntity();
+		e.addComponent(new Score());
+		e.addComponent(new Health(health));
+		e.addComponent(new Accuracy());
+		world.getManager(TagManager.class).register("PLAYER", e);
+		return e;
+	}
+
 	public static Entity createMouseEntity(World world, float x, float y, Vector velocity) {
 		Entity e = world.createEntity();
 		e.addComponent(new Position(x, y, MouseEntity.WIDTH / 2, MouseEntity.HEIGHT / 2));
@@ -28,8 +37,6 @@ public class EntityFactory {
 		Entity e = world.createEntity();
 		e.addComponent(new Position(x, y));
 		e.addComponent(new GameObjectForm("Cheese"));
-		e.addComponent(new Score());
-		e.addComponent(new Health(100f));
 		world.getManager(TagManager.class).register("CHEESE", e);
 		return e;
 	}

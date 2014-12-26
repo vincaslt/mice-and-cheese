@@ -38,7 +38,7 @@ public class RenderSystem extends EntityProcessingSystem {
 		GameObject gameObject = gameObjects.get(e.getId());
 		Position position = positionMapper.get(e);
 		KillOnClick killE = e.getComponent(KillOnClick.class);
-		Score score = world.getManager(TagManager.class).getEntity("CHEESE").getComponent(Score.class);
+		Score score = world.getManager(TagManager.class).getEntity("PLAYER").getComponent(Score.class);
 
 		if (gameObject instanceof KillableEntity && killE != null) {
 			switch (killE.getState()) {

@@ -3,6 +3,7 @@ package com.vincas.miceandcheese.entities;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.TagManager;
 import com.vincas.miceandcheese.components.Health;
 import com.vincas.miceandcheese.components.Position;
 import com.vincas.miceandcheese.utils.ResourceManager;
@@ -18,16 +19,14 @@ public class CheeseEntity extends GameObject {
 	public static final int WIDTH = 300;
 	public static final int HEIGHT = 305;
 
-	public CheeseEntity(World world, Entity owner)
-	{
+	public CheeseEntity(World world, Entity owner) {
 		super(world, owner);
 	}
 
 	@Override
 	public void initalize() {
 		ComponentMapper<Position> positionMapper = ComponentMapper.getFor(Position.class, world);
-		ComponentMapper<Health> healthMapper = ComponentMapper.getFor(Health.class, world);
-		health = healthMapper.get(owner);
+		health = world.getManager(TagManager.class).getEntity("PLAYER").getComponent(Health.class);
 		position = positionMapper.get(owner);
 		image = ResourceManager.getImage("cheese");
 	}

@@ -59,6 +59,8 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 			world.setSystem(new RenderGUISystem(gameContainer));
 			world.initialize();
 
+			EntityFactory.createPlayerEntity(world, 100f).addToWorld();
+
 			EntityFactory.createCheeseEntity(world,
 				MiceAndCheese.getGameScreenCenterX(),
 				MiceAndCheese.getGameScreenCenterY())

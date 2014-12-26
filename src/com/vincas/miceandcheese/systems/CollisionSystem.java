@@ -34,7 +34,8 @@ public class CollisionSystem extends EntitySystem {
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> mice = world.getManager(GroupManager.class).getEntities("MOUSE");
 		Entity cheese = world.getManager(TagManager.class).getEntity("CHEESE");
-		Health health = cheese.getComponent(Health.class);
+		Entity player = world.getManager(TagManager.class).getEntity("PLAYER");
+		Health health = player.getComponent(Health.class);
 
 		// Probably not the best place for it here, create new system?
 		if (!health.isAlive()) {

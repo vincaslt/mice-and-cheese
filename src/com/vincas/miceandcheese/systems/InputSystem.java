@@ -5,7 +5,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.TagManager;
 import com.artemis.utils.ImmutableBag;
+import com.vincas.miceandcheese.components.Accuracy;
 import com.vincas.miceandcheese.components.KillOnClick;
 import com.vincas.miceandcheese.components.Position;
 
@@ -47,6 +49,7 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 	@Override
 	public void controlPressed(Command command) {
 		if (command.equals(COMMAND_SHOOT)) {
+			Accuracy acc = world.getManager(TagManager.class).getEntity("PLAYER").getComponent(Accuracy.class);
 			int x = gameContainer.getInput().getMouseX();
 			int y = gameContainer.getInput().getMouseY();
 			Position p = new Position(x, y);
@@ -58,10 +61,11 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 				if (CollisionSystem.isColiding(pos, p, killable.getRadius(), new float[]{
 					pos.getCenterOffsetX(), pos.getCenterOffsetY(), 0, 0})) {
 					killable.setState(KillOnClick.State.PROCESSING);
-					break;
+					acc.hit();
+					return; // Probably a bad practice to have a return here...
 				}
 			}
-
+			acc.miss();
 		}
 	}
 
