@@ -25,6 +25,7 @@ public class CollisionSystem extends EntitySystem {
 	private ComponentMapper<Position> positionMapper;
 	private StateBasedGame game;
 
+	@SuppressWarnings("unchecked")
 	public CollisionSystem(StateBasedGame game) {
 		super(Aspect.getAspectForAll(Position.class));
 		this.game = game;
@@ -69,12 +70,6 @@ public class CollisionSystem extends EntitySystem {
 	@Override
 	protected boolean checkProcessing() {
 		return true;
-	}
-
-	private boolean collisionExists(Entity e1, Entity e2, float distance) {
-		Position p1 = positionMapper.get(e1);
-		Position p2 = positionMapper.get(e2);
-		return p1.getDistanceTo(p2) < distance;
 	}
 
 	/**

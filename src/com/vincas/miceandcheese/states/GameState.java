@@ -37,7 +37,6 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 	private InputProvider inputProvider;
 	private World world;
 	private int stateId;
-	private StateBasedGame game;
 
 	public GameState(int id) {
 		stateId = id;
@@ -78,8 +77,6 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 
 	@Override
 	protected void initGameAndGUI(GameContainer gameContainer, StateBasedGame stateBasedGame) {
-		this.game = stateBasedGame;
-
 		// Initialize nifty
 		initNifty(gameContainer, stateBasedGame);
 
@@ -110,14 +107,12 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 		// Load gui here
 	}
 
-	@Override
 	public void controlPressed(Command command) {
 		if (command.equals(COMMAND_EXIT)) {
 			System.exit(0);
 		}
 	}
 
-	@Override
 	public void controlReleased(Command command) {
 
 	}

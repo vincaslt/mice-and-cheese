@@ -15,8 +15,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 public class RenderGUISystem extends EntityProcessingSystem {
-
-	private GameContainer container;
 	private Graphics g;
 	@Mapper
 	private ComponentMapper<Score> scoreMapper;
@@ -25,9 +23,9 @@ public class RenderGUISystem extends EntityProcessingSystem {
 	@Mapper
 	private ComponentMapper<Health> healthMapper;
 
+	@SuppressWarnings("unchecked")
 	public RenderGUISystem(GameContainer container) {
 		super(Aspect.getAspectForAll(Score.class, Accuracy.class, Health.class));
-		this.container = container;
 		this.g = container.getGraphics();
 	}
 

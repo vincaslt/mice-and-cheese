@@ -32,6 +32,7 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 	private InputProvider inputProvider;
 	private GameContainer gameContainer;
 
+	@SuppressWarnings("unchecked")
 	public InputSystem(GameContainer gameContainer) {
 		super(Aspect.getAspectForAll(Position.class, KillOnClick.class));
 
@@ -47,7 +48,6 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 		this.entities = entities;
 	}
 
-	@Override
 	public void controlPressed(Command command) {
 		Entity player = world.getManager(TagManager.class).getEntity("PLAYER");
 		Health health = player.getComponent(Health.class);
@@ -75,7 +75,6 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 		}
 	}
 
-	@Override
 	public void controlReleased(Command command) {
 	}
 

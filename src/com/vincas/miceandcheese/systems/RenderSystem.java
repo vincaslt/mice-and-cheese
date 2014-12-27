@@ -26,6 +26,7 @@ public class RenderSystem extends EntityProcessingSystem {
 	private GameContainer gameContainer;
 	private Graphics graphics;
 
+	@SuppressWarnings("unchecked")
 	public RenderSystem(GameContainer gameContainer) {
 		super(Aspect.getAspectForAll(Position.class, GameObjectForm.class));
 		this.gameContainer = gameContainer;
@@ -49,6 +50,7 @@ public class RenderSystem extends EntityProcessingSystem {
 				case FINISHED:
 					e.deleteFromWorld();
 					break;
+				default: break;
 			}
 		}
 

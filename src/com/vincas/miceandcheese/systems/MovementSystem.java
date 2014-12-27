@@ -14,6 +14,7 @@ public class MovementSystem extends EntityProcessingSystem {
 	@Mapper
 	private ComponentMapper<Position> positionMapper;
 
+	@SuppressWarnings("unchecked")
 	public MovementSystem() {
 		super(Aspect.getAspectForAll(Velocity.class, Position.class));
 	}

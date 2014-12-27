@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ResourceManager {
-	private static final String TILESET_LOCATION = "resources/maps";
+	//private static final String TILESET_LOCATION = "resources/maps";
 
 	private static HashMap<String, Image> images = new HashMap<String, Image>();
 	private static LoadingList loadingList;
@@ -62,7 +62,6 @@ public class ResourceManager {
 			this.path = path;
 		}
 
-		@Override
 		public void load() throws IOException {
 			try {
 				Image image = new Image(path);
@@ -72,7 +71,6 @@ public class ResourceManager {
 			}
 		}
 
-		@Override
 		public String getDescription() {
 			return "Deferred Image";
 		}
