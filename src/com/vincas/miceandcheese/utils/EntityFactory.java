@@ -4,8 +4,15 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
-import com.vincas.miceandcheese.components.*;
+import com.vincas.miceandcheese.components.Accuracy;
+import com.vincas.miceandcheese.components.Attack;
+import com.vincas.miceandcheese.components.GameObjectForm;
+import com.vincas.miceandcheese.components.Health;
+import com.vincas.miceandcheese.components.KillOnClick;
+import com.vincas.miceandcheese.components.Position;
+import com.vincas.miceandcheese.components.Score;
 import com.vincas.miceandcheese.components.TimerComponent;
+import com.vincas.miceandcheese.components.Velocity;
 import com.vincas.miceandcheese.entities.MouseEntity;
 import com.vincas.miceandcheese.utils.math_utils.Vector;
 
@@ -28,7 +35,7 @@ public class EntityFactory {
 		e.addComponent(new TimerComponent(200)); // Attack Timer
 		e.addComponent(new Attack(1f));
 		e.addComponent(new KillOnClick(
-			Math.max(MouseEntity.HEIGHT / 3.25f, MouseEntity.WIDTH / 3.25f), (int)velocity.getLength()));
+			Math.max(MouseEntity.HEIGHT / 3f, MouseEntity.WIDTH / 3f), (int)velocity.getLength()));
 		world.getManager(GroupManager.class).add(e, "MOUSE");
 		return e;
 	}

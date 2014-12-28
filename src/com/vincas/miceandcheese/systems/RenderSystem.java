@@ -18,6 +18,7 @@ import com.vincas.miceandcheese.entities.MouseEntity;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.opengl.TextureImpl;
 
 public class RenderSystem extends EntityProcessingSystem {
 	@Mapper private ComponentMapper<Position> positionMapper;
@@ -64,6 +65,7 @@ public class RenderSystem extends EntityProcessingSystem {
 
 			gameObject.render(graphics);
 		}
+		TextureImpl.bindNone();
 	}
 
 	@Override

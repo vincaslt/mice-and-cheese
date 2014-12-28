@@ -1,5 +1,6 @@
 package com.vincas.miceandcheese.states;
 
+import com.vincas.miceandcheese.MiceAndCheese;
 import com.vincas.miceandcheese.utils.ResourceManager;
 import com.vincas.miceandcheese.utils.StateIndex;
 import com.vincas.miceandcheese.utils.Timer;
@@ -26,7 +27,7 @@ public class LoadingState extends NiftyBasicGameState {
 	@Override
 	public void renderGame(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics g) {
 		g.drawString("Loading... " + ResourceManager.getProgress() + "%",
-			gameContainer.getWidth() / 2 - 80, gameContainer.getHeight() / 2 - 60);
+			MiceAndCheese.RES_WIDTH / 2 - 80, MiceAndCheese.RES_HEIGHT / 2 - 60);
 	}
 
 	@Override

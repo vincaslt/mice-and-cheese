@@ -51,12 +51,12 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 			world = MiceAndCheese.gameWorld;
 			world.setManager(new GroupManager());
 			world.setManager(new TagManager());
-			world.setSystem(new InputSystem(gameContainer));
-			world.setSystem(new RenderSystem(gameContainer));
 			world.setSystem(new SpawnSystem(500));
 			world.setSystem(new MovementSystem());
 			world.setSystem(new CollisionSystem(stateBasedGame));
-			world.setSystem(new RenderGUISystem(gameContainer));
+			world.setSystem(new RenderGUISystem(gameContainer), true);
+			world.setSystem(new RenderSystem(gameContainer), true);
+			world.setSystem(new InputSystem(gameContainer));
 			world.initialize();
 
 			EntityFactory.createPlayerEntity(world, 100f).addToWorld();
@@ -94,12 +94,14 @@ public class GameState extends NiftyOverlayBasicGameState implements InputProvid
 
 	@Override
 	protected void renderGame(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) {
-		world.process();
+		world.getSystem(RenderSystem.class).process();
+		world.getSystem(RenderGUISystem.class).process();
 	}
 
 	@Override
 	protected void updateGame(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) {
 		world.setDelta(delta);
+		world.process();
 	}
 
 	@Override

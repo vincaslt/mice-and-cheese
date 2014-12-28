@@ -10,6 +10,8 @@ import com.vincas.miceandcheese.utils.StateIndex;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -28,25 +30,27 @@ public class LoseGameState extends NiftyBasicGameState {
 	}
 
 	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
-		game.enterState(StateIndex.GAME_STATE, new FadeOutTransition(), new FadeInTransition());
+	public void keyPressed(int key, char c) {
+		if (key == Input.KEY_ENTER)
+			game.enterState(StateIndex.GAME_STATE, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	@Override
 	protected void renderGame(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics g) {
 		g.setColor(Color.cyan);
-		g.drawString("You have lost!",
-			gameContainer.getWidth() / 2 - 80,
-			gameContainer.getHeight() / 2 - 60);
+		g.drawString("You have lost! Press Enter to retry.",
+			MiceAndCheese.RES_WIDTH / 2 - 80,
+			MiceAndCheese.RES_HEIGHT / 2 - 60);
 		g.setColor(Color.green);
 		g.drawString("Accuracy: " + acc.getPercentage() + "%",
-			gameContainer.getWidth() / 2 - 80,
-			300);
+			MiceAndCheese.RES_WIDTH / 2 - 80,
+			MiceAndCheese.RES_HEIGHT / 2 - 100);
 		g.setColor(Color.yellow);
 		g.drawString("Score: " + score.getScore(),
-			gameContainer.getWidth() / 2 - 80,
-			260);
+			MiceAndCheese.RES_WIDTH / 2 - 80,
+			MiceAndCheese.RES_HEIGHT / 2 - 140);
 
+		TextureImpl.bindNone();
 	}
 
 	@Override

@@ -54,7 +54,7 @@ public class InputSystem extends EntitySystem implements InputProviderListener {
 		if (!health.isAlive())
 			return;
 
-		if (command.equals(COMMAND_SHOOT)) {
+		if (command.equals(COMMAND_SHOOT) && entities != null) {
 			Accuracy acc = player.getComponent(Accuracy.class);
 			int x = gameContainer.getInput().getMouseX();
 			int y = gameContainer.getInput().getMouseY();

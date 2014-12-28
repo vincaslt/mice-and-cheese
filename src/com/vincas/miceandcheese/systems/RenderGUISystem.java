@@ -13,6 +13,7 @@ import com.vincas.miceandcheese.components.Score;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.opengl.TextureImpl;
 
 public class RenderGUISystem extends EntityProcessingSystem {
 	private Graphics g;
@@ -40,5 +41,6 @@ public class RenderGUISystem extends EntityProcessingSystem {
 		g.drawString("Accuracy: " + acc.getPercentage() + "%", MiceAndCheese.GAME_WIDTH - 400, 20);
 		g.setColor(Color.yellow);
 		g.drawString("Score: " + score.getScore(), MiceAndCheese.GAME_WIDTH - 200, 20);
+		TextureImpl.bindNone();
 	}
 }

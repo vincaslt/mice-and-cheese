@@ -10,23 +10,33 @@ import com.vincas.miceandcheese.utils.StateIndex;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 
 public class MiceAndCheese extends NiftyStateBasedGame {
 
-	public static final int RES_WIDTH = 1280;
-	public static final int RES_HEIGHT = 800;
-	public static final int GAME_WIDTH = RES_WIDTH;
-	public static final int GAME_HEIGHT = RES_HEIGHT;
-	public static final boolean RES_FULLSCREEN = false;
+	public static final int RES_WIDTH = 1600; // Real resolution
+	public static final int RES_HEIGHT = 900;
+	public static Dimension SCREEN_SIZE; // Screen size to scale to
+	public static int GAME_WIDTH = RES_WIDTH; // Actual playing area, change later
+	public static int GAME_HEIGHT = RES_HEIGHT;
+	public static boolean RES_FULLSCREEN = true;
 
+	private static AppGameContainer app;
 	public static World gameWorld;
 
 	public MiceAndCheese(String gameName) {
 		super(gameName);
 		ResourceManager.init();
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		SCREEN_SIZE = toolkit.getScreenSize();
 	}
 
 	@Override
@@ -35,15 +45,26 @@ public class MiceAndCheese extends NiftyStateBasedGame {
 		addState(new MainMenuState(StateIndex.MAIN_MENU_STATE));
 		addState(new GameState(StateIndex.GAME_STATE));
 		addState(new LoseGameState(StateIndex.LOSE_GAME_STATE));
-
 	}
 
 	public void launch() throws SlickException {
-		AppGameContainer app = new AppGameContainer(this);
-
-		app.setDisplayMode(RES_WIDTH, RES_HEIGHT, RES_FULLSCREEN);
-		app.setTargetFrameRate(60);
+		app = new AppGameContainer(new ScalableGame(this, RES_WIDTH, RES_HEIGHT));
+		app.setAlwaysRender(true);
+		app.setDisplayMode(SCREEN_SIZE.width, SCREEN_SIZE.height, RES_FULLSCREEN);
 		app.start();
+	}
+	
+	public static void toggleFullscreen() {
+		try {
+			RES_FULLSCREEN = !RES_FULLSCREEN;
+			if (!MiceAndCheese.RES_FULLSCREEN) {
+				app.setDisplayMode(RES_WIDTH, RES_HEIGHT, RES_FULLSCREEN);
+			} else {
+				app.setDisplayMode(SCREEN_SIZE.width, SCREEN_SIZE.height, RES_FULLSCREEN);
+			}
+		} catch (SlickException e) {
+			Logger.getLogger(LaunchGame.class.getName()).log(Level.SEVERE, null, e);
+		}
 	}
 
 	public static float getGameScreenCenterX() {
