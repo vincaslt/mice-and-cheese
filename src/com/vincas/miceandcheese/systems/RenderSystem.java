@@ -15,14 +15,18 @@ import com.vincas.miceandcheese.entities.CheeseEntity;
 import com.vincas.miceandcheese.entities.GameObject;
 import com.vincas.miceandcheese.entities.KillableEntity;
 import com.vincas.miceandcheese.entities.MouseEntity;
+import com.vincas.miceandcheese.utils.ResourceManager;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.opengl.TextureImpl;
 
 public class RenderSystem extends EntityProcessingSystem {
-	@Mapper private ComponentMapper<Position> positionMapper;
-	@Mapper private ComponentMapper<GameObjectForm> gameObjectFormMapper;
+	@Mapper
+	private ComponentMapper<Position> positionMapper;
+	@Mapper
+	private ComponentMapper<GameObjectForm> gameObjectFormMapper;
 	private Bag<GameObject> gameObjects;
 	private GameContainer gameContainer;
 	private Graphics graphics;
@@ -47,11 +51,14 @@ public class RenderSystem extends EntityProcessingSystem {
 				case PROCESSING:
 					((KillableEntity) gameObject).die();
 					score.incrementScore(killE.getReward());
+					Sound fx = ResourceManager.getSound("rat_death_sound");
+					fx.play();
 					break;
 				case FINISHED:
 					e.deleteFromWorld();
 					break;
-				default: break;
+				default:
+					break;
 			}
 		}
 
@@ -69,25 +76,21 @@ public class RenderSystem extends EntityProcessingSystem {
 	}
 
 	@Override
-	protected void inserted(Entity e)
-	{
+	protected void inserted(Entity e) {
 		GameObject gameObject = createGameObject(e);
 
-		if (gameObject != null)
-		{
+		if (gameObject != null) {
 			gameObject.initalize();
 			gameObjects.set(e.getId(), gameObject);
 		}
 	}
 
 	@Override
-	protected void removed(Entity e)
-	{
+	protected void removed(Entity e) {
 		gameObjects.set(e.getId(), null);
 	}
 
-	private GameObject createGameObject(Entity e)
-	{
+	private GameObject createGameObject(Entity e) {
 		GameObjectForm gameObjectForm = gameObjectFormMapper.get(e);
 		String spatialFormFile = gameObjectForm.getGameObjectFormName();
 
